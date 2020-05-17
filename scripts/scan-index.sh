@@ -1,6 +1,7 @@
 #!/bin/sh
 
-LANGUAGES="eng+deu"
+LANGUAGES=${LANGUAGES:="deu+eng"}
+
 
 get_directory_without_prefix() {
     file_directory=$1
@@ -37,23 +38,60 @@ ocr_pdf(){
     return $return_code
 }
 
+backup_file() {
+    input_file=$1
+    output_directory=$2
+    output_filename=$3
 
+    mkdir -p "$output_directory"
+
+    cp "$input_file" "$output_directory/$output_filename" 
+    return_code=$?
+
+    echo "Backed up $input_file to $output_directory/$output_filename"
+
+    return $return_code
+}
+
+process_file() {
+    file=$1
+    timestamp=$(date +%Y%m%d%H%M%S)
+
+    if [ -f "$file" ]; then
+        normalized_directory=$(get_directory_without_prefix $file $SCAN_SOURCE)
+        filename=$(basename $file)
+        echo "Timestamp: $timestamp"
+        backup_file $file "$BACKUP_DIR/$normalized_directory" "${timestamp}_${filename}"
+
+        ocr_filename="OCR_${timestamp}_${filename}"
+
+        ocr_pdf $file "$OCR_TARGET/$normalized_directory" $ocr_filename
+        
+        if [ $? = 0 ]; then
+            echo "Success"
+            backup_file "$OCR_TARGET/$normalized_directory/OCR_$filename" "$BACKUP_DIR/$normalized_directory" $ocr_filename
+        fi
+
+        rm $file
+
+    else
+        echo "$file does not exist, assuming this is a duplicate call"
+    fi
+}
 
 find_pdf(){
     find $SCAN_SOURCE -type f -iname '*.pdf' | while read file; do 
-        normalized_directory=$(get_directory_without_prefix $file $SCAN_SOURCE)
-        filename=$(basename $file)
-        ocr_pdf $file "$OCR_TARGET/$normalized_directory" "OCR_$filename"
+        process_file $file
     done
 }
 
 listen_pdf() {
     inotifywait -mrq -e create --format "%w%f" $SCAN_SOURCE | while read file; do
-        normalized_directory=$(get_directory_without_prefix $file $SCAN_SOURCE)
-        filename=$(basename $file)
-        ocr_pdf $file "$OCR_TARGET/$normalized_directory" "OCR_$filename"
+         process_file $file
     done
 }
+
+echo "Languages set to $LANGUAGES"
 
 echo "Searching for exitsing files in $SCAN_SOURCE"
 
