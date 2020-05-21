@@ -25,7 +25,7 @@ ocr_pdf(){
     echo "Starting OCR for $input_pdf"
     mkdir -p "$output_directory"
 
-    ocrmypdf -l $LANGUAGES --quiet --jobs 1 "$input_pdf" "$output_directory/$output_filename" 
+    ocrmypdf -l $LANGUAGES --quiet "$input_pdf" "$output_directory/$output_filename" 
     return_code=$?
 
     if [ $return_code -gt 0 ]; then
@@ -60,7 +60,6 @@ process_file() {
     if [ -f "$file" ]; then
         normalized_directory=$(get_directory_without_prefix $file $SCAN_SOURCE)
         filename=$(basename $file)
-        echo "Timestamp: $timestamp"
         backup_file $file "$BACKUP_DIR/$normalized_directory" "${timestamp}_${filename}"
 
         ocr_filename="OCR_${timestamp}_${filename}"
