@@ -93,6 +93,24 @@ listen_pdf() {
 
 echo "Languages set to $LANGUAGES"
 
+if [ -z $SCAN_SOURCE ]; then
+    echo "Environment variable SCAN_SOURCE not set ..."
+else 
+    echo "SCAN_SOURCE set to: $SCAN_SOURCE"    
+fi
+
+if [ -z $OCR_TARGET ]; then
+    echo "Environment variable OCR_TARGET not set ..."
+else 
+    echo "SCAN_SOURCE set to: $OCR_TARGET"    
+fi
+
+if [ -z $BACKUP_DIR ]; then
+    echo "Environment variable BACKUP_DIR not set ..."
+else 
+    echo "SCAN_SOURCE set to: $BACKUP_DIR"    
+fi
+
 echo "Searching for exitsing files in $SCAN_SOURCE"
 
 find_pdf
