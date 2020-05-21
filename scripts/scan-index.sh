@@ -67,8 +67,7 @@ process_file() {
         ocr_pdf $file "$OCR_TARGET/$normalized_directory" $ocr_filename
         
         if [ $? = 0 ]; then
-            echo "Success"
-            backup_file "$OCR_TARGET/$normalized_directory/OCR_$filename" "$BACKUP_DIR/$normalized_directory" $ocr_filename
+            backup_file "$OCR_TARGET/$normalized_directory/$ocr_filename" "$BACKUP_DIR/$normalized_directory" $ocr_filename
         fi
 
         rm $file
