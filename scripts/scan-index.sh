@@ -102,6 +102,7 @@ fi
 if [ -z $OCR_TARGET ]; then
     echo "Environment variable OCR_TARGET not set ..."
 else 
+
     echo "OCR_TARGET set to: $OCR_TARGET"    
 fi
 
