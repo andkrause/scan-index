@@ -11,6 +11,8 @@ RUN     apt-get update \
     &&  rm -rf /var/lib/apt/lists/* \
     &&  chmod -R 750 /scripts/
 
+VOLUME ["$SCAN_SOURCE", "$OCR_TARGET", "$BACKUP_DIR"]    
+
 ENTRYPOINT ["/usr/bin/tini", "--", "scripts/scan-index.sh"]
 
 
