@@ -33,4 +33,4 @@ jobs:
             --push \
             --platform linux/arm64/v8,linux/amd64  \
             --tag "${DOCKER_REPOSITORY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" \
-            --file .docker/Dockerfile .
+            --file Dockerfile .
