@@ -1,9 +1,9 @@
 name: Build and Push Dockerhub
 on:
   push:
-    branches: [master, github-action-fix]
+    branches: [master]
     paths-ignore:
-#      - .github/**
+      - .github/**
       - README.md
   release:
     types: [published]
@@ -11,19 +11,12 @@ jobs:
   buildx:
     runs-on: ubuntu-latest
     steps:
-      # - name: Set Image Tag to Release or Branch
-      #   run: echo "DOCKER_IMAGE_TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
-      # - name: If master, set to latest
-      #   if: env.DOCKER_IMAGE_TAG == 'master'
-      #   run: echo "DOCKER_IMAGE_TAG=latest" >> $GITHUB_ENV
       - uses: actions/checkout@v2
       - name: Docker meta
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}
-#      - name: Buildx setup
-#        uses: crazy-max/ghaction-docker-buildx@v2
+          images: andy008/scan-index
       - name: Set up QEMU
         id: qemu
         uses: docker/setup-qemu-action@v1
@@ -50,10 +43,3 @@ jobs:
         run: "echo Image Digest: ${{ steps.docker_build.outputs.digest }}"
       - name: Image Tag
         run: "echo Image Tags: ${{ steps.docker_meta.outputs.tags }}"
-      # - name: Run Buildx
-      #   run: |
-      #     docker buildx build \
-      #       --push \
-      #       --platform linux/arm64/v8,linux/amd64  \
-      #       --tag "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}:${DOCKER_IMAGE_TAG}" \
-      #       --file Dockerfile .
