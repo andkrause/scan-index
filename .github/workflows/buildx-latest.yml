@@ -11,12 +11,17 @@ jobs:
   buildx:
     runs-on: ubuntu-latest
     steps:
-      - name: Set Image Tag to Release or Branch
-        run: echo "DOCKER_IMAGE_TAG=${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}:${GITHUB_REF##*/}" >> $GITHUB_ENV
-      - name: If master, set to latest
-        if: env.DOCKER_IMAGE_TAG == 'master'
-        run: echo "DOCKER_IMAGE_TAG=${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}:latest" >> $GITHUB_ENV
+      # - name: Set Image Tag to Release or Branch
+      #   run: echo "DOCKER_IMAGE_TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      # - name: If master, set to latest
+      #   if: env.DOCKER_IMAGE_TAG == 'master'
+      #   run: echo "DOCKER_IMAGE_TAG=latest" >> $GITHUB_ENV
       - uses: actions/checkout@v2
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}
 #      - name: Buildx setup
 #        uses: crazy-max/ghaction-docker-buildx@v2
       - name: Set up QEMU
@@ -40,7 +45,7 @@ jobs:
           context: .
           platforms: linux/arm64/v8,linux/amd64
           push: true
-          tags: "${DOCKER_IMAGE_TAG}"
+          tags: ${{ steps.docker_meta.outputs.tags }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
       # - name: Run Buildx
