@@ -42,4 +42,4 @@ jobs:
       - name: Image digest
         run: "echo Image Digest: ${{ steps.docker_build.outputs.digest }}"
       - name: Image Tag
-        run: "echo Image Tags: ${{ steps.docker_meta.outputs.tags }}"
+        run: "echo 'Image Tags: ${{ steps.docker_meta.outputs.tags }}'"
