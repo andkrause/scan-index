@@ -47,7 +47,9 @@ jobs:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
       - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
+        run: "echo Image Digest: ${{ steps.docker_build.outputs.digest }}"
+      - name: Image Tag
+        run: "echo Image Tags: ${{ steps.docker_meta.outputs.tags }}"
       # - name: Run Buildx
       #   run: |
       #     docker buildx build \
