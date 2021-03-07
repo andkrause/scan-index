@@ -3,7 +3,7 @@ on:
   push:
     branches: [master, github-action-fix]
     paths-ignore:
-      - .github/**
+#      - .github/**
       - README.md
   release:
     types: [published]
