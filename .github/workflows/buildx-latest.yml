@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set Image Tag to Release or Branch
-        run: echo "DOCKER_IMAGE_TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
+        run: echo "DOCKER_IMAGE_TAG=${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}:${GITHUB_REF##*/}" >> $GITHUB_ENV
       - name: If master, set to latest
         if: env.DOCKER_IMAGE_TAG == 'master'
-        run: echo "DOCKER_IMAGE_TAG=latest" >> $GITHUB_ENV
+        run: echo "DOCKER_IMAGE_TAG=${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}:latest" >> $GITHUB_ENV
       - uses: actions/checkout@v2
 #      - name: Buildx setup
 #        uses: crazy-max/ghaction-docker-buildx@v2
@@ -40,7 +40,7 @@ jobs:
           context: .
           platforms: linux/arm64/v8,linux/amd64
           push: true
-          tags: "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}:${DOCKER_IMAGE_TAG}"
+          tags: "${DOCKER_IMAGE_TAG}"
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
       # - name: Run Buildx
