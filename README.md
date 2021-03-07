@@ -11,7 +11,7 @@ scan-index is based on [OCRmyPDF](https://ocrmypdf.readthedocs.io/en/latest/inde
 
 When scan-index starts-up, it inspects the directory and kicks-off the ocr process.
 
-As it is currently deployed to a Raspberry PI 4b, it is based on a bespoke version of the [OCRmyPDF image](https://hub.docker.com/r/andy008/ocrmypdf). This will be changed once a aarch64 version is [available](https://github.com/jbarlow83/OCRmyPDF/pull/564).
+As it is currently deployed to a Raspberry PI 4b. OCRmyPDF is installed via pip.
 
 ## Configuration
 
