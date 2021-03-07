@@ -7,7 +7,6 @@ ENV TZ=Europe/Zurich
 ENV DEBIAN_FRONTEND=noninteractive
 
 COPY --chown=root scripts /scripts/
-WORKDIR /
 
 RUN     apt-get update \
     &&  apt-get install -y \ 
