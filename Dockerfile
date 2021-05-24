@@ -1,5 +1,6 @@
 FROM jbarlow83/ocrmypdf:v12.0.2
 
+
 ENV SCAN_SOURCE=/scans/sourcedir
 ENV OCR_TARGET=/scans/targetdir
 ENV BACKUP_DIR=/scans/backup
