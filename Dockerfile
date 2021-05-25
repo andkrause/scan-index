@@ -7,7 +7,7 @@ ENV BACKUP_DIR=/scans/backup
 ENV TZ=Europe/Zurich
 ENV DEBIAN_FRONTEND=noninteractive
 
-COPY --chown=root scripts /scripts/
+COPY --chown=root scripts scripts/
 
 RUN     apt-get update \
     &&  apt-get install -y \ 
