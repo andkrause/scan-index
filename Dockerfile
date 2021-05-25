@@ -16,7 +16,7 @@ RUN     apt-get update \
     file \
     tzdata \
     &&  rm -rf /var/lib/apt/lists/* \
-    &&  chmod -R 750 /scripts/
+    &&  chmod -R 750 scripts/
 
 VOLUME ["$SCAN_SOURCE", "$OCR_TARGET", "$BACKUP_DIR"]    
 
