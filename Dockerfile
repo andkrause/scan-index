@@ -1,4 +1,4 @@
-FROM jbarlow83/ocrmypdf:v17.4.0
+FROM jbarlow83/ocrmypdf:v17.4.1
 
 
 ENV SCAN_SOURCE=/scans/sourcedir
