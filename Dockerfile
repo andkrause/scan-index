@@ -7,8 +7,8 @@ ENV BACKUP_DIR=/scans/backup
 ENV TZ=Europe/Zurich
 ENV DEBIAN_FRONTEND=noninteractive
 
-COPY --chown=root scripts scripts/
-
+COPY --chown=1000 scripts scripts/
+USER root
 RUN     apt-get update \
     &&  apt-get install -y \ 
     inotify-tools \
@@ -19,7 +19,7 @@ RUN     apt-get update \
     &&  chmod -R 750 scripts/
 
 VOLUME ["$SCAN_SOURCE", "$OCR_TARGET", "$BACKUP_DIR"]    
-
+USER app
 
 ENTRYPOINT ["/usr/bin/tini", "--", "scripts/scan-index.sh"]
 
